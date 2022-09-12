@@ -1,21 +1,29 @@
 const { createApp }  = Vue;
 
-const app = createApp({
+createApp({    
     data() {
-        let id = 1;
         return {
-            todos: [
-                { id: id++, name: "Learn Vue.js", desc: "lorem ipsum", isDone: false },
-                { id: id++, name: "Learn React.js", desc: "lorem ipsum", isDone: true },
-            ]
+            todoName: '',
+            todoDesc: '',
+            todos: eval(localStorage.getItem('todos'))
         }
     },
     methods: {
         addTodo() {
-            console.log('adding todo...');
+            const payload = {
+                name: this.todoName,
+                desc: this.todoDesc,
+                isDone: false
+            }
+            this.todos.push(payload);
+            const data = JSON.stringify(this.todos);
+            localStorage.setItem('todos', data);
         },
-        removeTodo() {
-            console.log('removing todo...');
+        removeTodo(todo) {
+            this.todos.filter((t) => {
+                console.log(t); 
+            });
+            // this.todos = this.todos.filter((t) => t != todo);
         },
         editTodo() {
             console.log('aditing todo...');
@@ -23,10 +31,5 @@ const app = createApp({
         updateTodo() {
             console.log('updating todo...');
         },
-        removeTodo() {
-            console.log('removing todo...');
-        },
     }
-});
-
-app.mount('#app');
+}).mount('#app');
